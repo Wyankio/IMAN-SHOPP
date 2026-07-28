@@ -3,137 +3,200 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Open PO - IMAN SHOP </title>
+  <title>Open PO - IMAN SHOP</title>
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: #f7f3ef; color: #4a3b32; margin: 0; padding: 20px; }
+    body { background-color: #f7f3ef; color: #4a3b32; margin: 0; padding: 20px; padding-bottom: 90px; }
     .container { max-width: 600px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
     h1, h2 { text-align: center; color: #5c4033; margin-bottom: 5px; }
-    p.subtitle { text-align: center; font-size: 0.9em; color: #8c7a6b; margin-top: 0; }
-    .category { font-weight: bold; background: #e8ded5; padding: 8px 12px; border-radius: 6px; margin-top: 20px; }
-    .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px border-style: dashed; border-color: #eee; }
+    p.subtitle { text-align: center; font-size: 0.9em; color: #8c7a6b; margin-top: 0; margin-bottom: 25px; }
+    
+    /* Grid Kategori Utama */
+    .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+    .category-card { background: #fdfbf7; border: 2px solid #e8ded5; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; transition: 0.2s; }
+    .category-card:hover { border-color: #6d4c41; background: #f5ebe6; transform: translateY(-3px); }
+    .category-card .icon { font-size: 2.5em; margin-bottom: 10px; display: block; }
+    .category-card .title { font-weight: bold; color: #5c4033; font-size: 1.1em; }
+
+    /* Header Navigasi Menu */
+    .menu-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 2px solid #e8ded5; padding-bottom: 10px; }
+    .btn-back { background: #e8ded5; color: #5c4033; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.9em; }
+    .btn-back:hover { background: #d7ccc8; }
+
+    /* Item Menu */
+    .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed #eee; }
     .menu-info { flex: 1; }
-    .menu-name { font-weight: 600; }
-    .menu-price { color: #8c7a6b; font-size: 0.9em; }
+    .menu-name { font-weight: 600; font-size: 0.95em; }
+    .menu-price { color: #8c7a6b; font-size: 0.85em; margin-top: 2px; }
     .qty-control { display: flex; align-items: center; gap: 8px; }
     .qty-btn { background: #d7ccc8; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-weight: bold; }
     .qty-btn:hover { background: #bcaaa4; }
+
+    /* Form Identitas */
     .form-group { margin-top: 15px; }
     label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9em; }
     input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1em; }
-    .total-box { background: #f5ebe6; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: right; font-size: 1.2em; font-weight: bold; }
-    .btn-submit { width: 100%; background: #6d4c41; color: white; border: none; padding: 14px; font-size: 1.1em; border-radius: 8px; cursor: pointer; margin-top: 15px; font-weight: bold; }
-    .btn-submit:hover { background: #5d4037; }
-    
-  
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 20px; }
+
+    /* Floating Cart Bar di Bawah */
+    .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #6d4c41; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -4px 10px rgba(0,0,0,0.1); }
+    .cart-info { font-size: 0.95em; }
+    .cart-total { font-size: 1.1em; font-weight: bold; color: #ffe0b2; }
+    .btn-checkout { background: #25D366; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 0.95em; }
+    .btn-checkout:hover { background: #1eb857; }
+
+    /* Modal QRIS */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; padding: 20px; z-index: 100; }
     .modal-content { background: white; padding: 25px; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; }
-    .modal-content img { max-width: 100%;  height: auto; display: block;    margin: 15px auto; }
-    .qris-img { width: 100%; max-width: 250px; margin: 15px 0; border-radius: 8px; }
-    .btn-wa { background: #25D366; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 10px; }
+    .modal-content img { max-width: 100%; height: auto; display: block; margin: 15px auto; border-radius: 8px; }
+    .btn-wa { background: #25D366; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 10px; box-sizing: border-box; }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>IMAN SHOP </h1>
-  <p class="subtitle">Form Order Pre-Order (PO)</p>
-  <form id="orderForm">
-    <div class="form-group">
-      <label>Nama Lengkap*</label>
-      <input type="text" id="nama" required placeholder="Contoh: Budi Santoso">
-    </div>
-    <div class="form-group">
-      <label>Nomor WhatsApp*</label>
-      <input type="tel" id="whatsapp" required placeholder="08123456789">
-    </div>
+  <h1>IMAN SHOP</h1>
+  <p class="subtitle">Pilih Kategori Kebutuhan PO Kamu</p>
 
-    <div class="category">Puff Pastry (Sweet)</div>
-    <div id="sweet-menu"></div>
-
-    <div class="category">Puff Pastry (Savory)</div>
-    <div id="savory-menu"></div>
-
-    <div class="form-group">
-      <label>Catatan Khusus (Opsional)</label>
-      <textarea id="catatan" rows="2" placeholder="Contoh: Jangan terlalu manis / bungkus terpisah"></textarea>
-    </div>
-
-    <div class="total-box">
-      Total: Rp <span id="totalHarga">0</span>
+  <!-- TAMPILAN 1: PILIHAN KATEGORI UTAMA -->
+  <div id="categoryView">
+    <div class="category-grid">
+      <div class="category-card" onclick="openCategory('donat')">
+        <span class="icon">🍩</span>
+        <span class="title">Donat Varian</span>
+      </div>
+      <div class="category-card" onclick="openCategory('pastry')">
+        <span class="icon">🥐</span>
+        <span class="title">Puff Pastry</span>
+      </div>
+      <div class="category-card" onclick="openCategory('minuman')">
+        <span class="icon">🧋</span>
+        <span class="title">Minuman Botol</span>
+      </div>
+      <div class="category-card" onclick="openCategory('jajanan')">
+        <span class="icon">🍡</span>
+        <span class="title">Jajanan & Snack</span>
+      </div>
     </div>
 
-    <button type="submit" class="btn-submit" id="submitBtn">Bayar & Kirim Pesanan</button>
-  </form>
+    <!-- Form Identitas Pemesan (Tampil di awal) -->
+    <div style="margin-top: 25px; border-top: 2px solid #e8ded5; padding-top: 15px;">
+      <h3 style="margin-bottom: 10px; color: #5c4033;">Data Pemesan</h3>
+      <div class="form-group">
+        <label>Nama Lengkap*</label>
+        <input type="text" id="nama" placeholder="Contoh: Iman">
+      </div>
+      <div class="form-group">
+        <label>Nomor WhatsApp*</label>
+        <input type="tel" id="whatsapp" placeholder="08123456789">
+      </div>
+      <div class="form-group">
+        <label>Catatan Khusus (Opsional)</label>
+        <textarea id="catatan" rows="2" placeholder="Contoh: Jangan terlalu manis / minta kantong terpisah"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAMPILAN 2: DAFTAR MENU SESUAI KATEGORI -->
+  <div id="menuView" style="display: none;">
+    <div class="menu-header">
+      <button class="btn-back" onclick="showCategoryView()">⬅️ Kategori Lain</button>
+      <h2 id="categoryTitle" style="margin: 0; font-size: 1.2em;">Nama Kategori</h2>
+    </div>
+    <div id="menuContainer"></div>
+  </div>
 </div>
 
+<!-- BAR RINGKASAN KERANJANG FLOATING (SELALU MUNCUL DI BAWAH) -->
+<div class="cart-bar">
+  <div class="cart-info">
+    <div>Total (<span id="cartCount">0</span> item)</div>
+    <div class="cart-total">Rp <span id="cartTotal">0</span></div>
+  </div>
+  <button class="btn-checkout" onclick="processOrder()">Lanjut Pembayaran</button>
+</div>
 
+<!-- MODAL PEMBAYARAN QRIS -->
 <div class="modal" id="qrisModal">
   <div class="modal-content">
     <h2>Pembayaran QRIS</h2>
-    <p>Scan QRIS di bawah ini untuk membayar sebesar:</p>
+    <p style="margin-bottom: 5px;">Scan QRIS di bawah ini sebesar:</p>
     <h3 style="color: #6d4c41; margin: 5px 0;" id="qrisTotal">Rp 0</h3>
     
-    
+    <!-- GANTI LINK GAMBAR DI BAWAH DENGAN GAMBAR QRIS KAMU -->
     <img src="https://i.ibb.co.com/G4PhK3gP/Whats-App-Image-2026-07-28-at-14-57-20.jpg">
     
-    <p style="font-size: 0.85em; color: #666;">Setelah transfer, klik tombol di bawah untuk konfirmasi bukti pembayaran via WhatsApp.</p>
+    <p style="font-size: 0.85em; color: #666;">Setelah transfer, klik tombol di bawah untuk mengirim bukti pembayaran ke WhatsApp.</p>
     <a href="#" id="waLink" target="_blank" class="btn-wa">Konfirmasi via WhatsApp</a>
   </div>
 </div>
 
 <script>
-
+  // GANTI DENGAN URL GOOGLE APPS SCRIPT KAMU
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDDljHxUEMkjjyywNKfNDkOLWnHY_0nX2nL-lWFXkDlzjIlw_iwLOMdTKFIZZ5ZUoegA/exec"; 
- 
+  // GANTI DENGAN NOMOR WA KAMU (Format 62)
   const NO_WA = "6282184260191"; 
 
-  const menuSweet = [
-    { name: "Roll Cream Choco ★", price: 18000 },
-    { name: "Room Horn Vanilla ★", price: 18000 },
-    { name: "Fruit Tart ★", price: 23000 },
-    { name: "Strawberry Jam Cheese", price: 18000 },
-    { name: "Blueberry Jam Cheese", price: 18000 },
-    { name: "Choco Crunchy ★", price: 18000 },
-    { name: "Banana Choco Crunchy", price: 18000 },
-    { name: "Banana Milk Crispy ★", price: 18000 },
-    { name: "Egg Tart ★", price: 17000 },
-    { name: "Durian", price: 18000 },
-    { name: "Green Tea", price: 18000 },
-    { name: "Apple Cinnamon ★", price: 18000 },
-    { name: "Pineapple Jam", price: 18000 },
-    { name: "Choco Melt ★", price: 18000 },
-    { name: "Brown Sugar Butter", price: 18000 },
-    { name: "Almond Puff Pastry ★", price: 18000 },
-    { name: "Srikaya Puff Pastry", price: 18000 },
-    { name: "Choco Cheese ★", price: 18000 },
-    { name: "Marshtella ★", price: 18000 },
-    { name: "Sugar Sprinkles", price: 16000 },
-    { name: "Cream Cheese ★", price: 18000 },
-    { name: "Mix Raisin", price: 18000 },
-    { name: "Tiramisu", price: 16000 }
-  ];
-
-  const menuSavory = [
-    { name: "Chicken Oregano Cheese ★", price: 20000 },
-    { name: "Tuna ★", price: 18000 },
-    { name: "Cheese ★", price: 18000 },
-    { name: "Pizza", price: 23000 },
-    { name: "Mashed Potato", price: 18000 },
-    { name: "Sausage Mozzarella", price: 23000 },
-    { name: "Bolognese", price: 20000 },
-    { name: "Abon Puff Pastry", price: 20000 },
-    { name: "Smoke Beef Mayo ★", price: 23000 }
-  ];
+  // DATABASE MENU PER KATEGORI
+  const menuData = {
+    donat: {
+      title: "🍩 Donat Varian",
+      items: [
+        { id: "d1", name: "Donat Cokelat Meseres", price: 8000 },
+        { id: "d2", name: "Donat Keju Parut", price: 8000 },
+        { id: "d3", name: "Donat Gula Halus", price: 6000 },
+        { id: "d4", name: "Donat Matcha Glaze", price: 9000 },
+        { id: "d5", name: "Donat Strawberry Jam", price: 9000 }
+      ]
+    },
+    pastry: {
+      title: "🥐 Puff Pastry",
+      items: [
+        { id: "p1", name: "Roll Cream Choco ★", price: 18000 },
+        { id: "p2", name: "Room Horn Vanilla ★", price: 18000 },
+        { id: "p3", name: "Fruit Tart ★", price: 23000 },
+        { id: "p4", name: "Strawberry Jam Cheese", price: 18000 },
+        { id: "p5", name: "Blueberry Jam Cheese", price: 18000 },
+        { id: "p6", name: "Choco Crunchy ★", price: 18000 },
+        { id: "p7", name: "Egg Tart ★", price: 17000 },
+        { id: "p8", name: "Chicken Oregano Cheese ★", price: 20000 },
+        { id: "p9", name: "Smoke Beef Mayo ★", price: 23000 }
+      ]
+    },
+    minuman: {
+      title: "🧋 Minuman Botol",
+      items: [
+        { id: "m1", name: "Kopi Kenangan Aren (250ml)", price: 15000 },
+        { id: "m2", name: "Matcha Latte Botol (250ml)", price: 18000 },
+        { id: "m3", name: "Chocolate Creamy (250ml)", price: 15000 },
+        { id: "m4", name: "Thai Tea Milk (250ml)", price: 12000 }
+      ]
+    },
+    jajanan: {
+      title: "🍡 Jajanan & Snack",
+      items: [
+        { id: "j1", name: "Risoles Smoked Beef Cheese", price: 7000 },
+        { id: "j2", name: "Pastel Ayam Telur", price: 6000 },
+        { id: "j3", name: "Eclair Cokelat", price: 10000 },
+        { id: "j4", name: "Macaron Assorted (Isi 3)", price: 25000 }
+      ]
+    }
+  };
 
   let cart = {};
 
-  function renderMenu(list, containerId) {
-    const container = document.getElementById(containerId);
-    list.forEach((item, index) => {
-      const id = containerId + "_" + index;
-      cart[id] = { ...item, qty: 0 };
-      
+  // Fungsi Membuka Tampilan Kategori Spesifik
+  function openCategory(catKey) {
+    const category = menuData[catKey];
+    document.getElementById("categoryTitle").innerText = category.title;
+    
+    const container = document.getElementById("menuContainer");
+    container.innerHTML = "";
+
+    category.items.forEach(item => {
+      if (!cart[item.id]) {
+        cart[item.id] = { ...item, qty: 0 };
+      }
+
       const div = document.createElement("div");
       div.className = "menu-item";
       div.innerHTML = `
@@ -142,47 +205,69 @@
           <div class="menu-price">Rp ${item.price.toLocaleString('id-ID')}</div>
         </div>
         <div class="qty-control">
-          <button type="button" class="qty-btn" onclick="updateQty('${id}', -1)">-</button>
-          <span id="qty_${id}">0</span>
-          <button type="button" class="qty-btn" onclick="updateQty('${id}', 1)">+</button>
+          <button type="button" class="qty-btn" onclick="updateQty('${item.id}', -1)">-</button>
+          <span id="qty_${item.id}">${cart[item.id].qty}</span>
+          <button type="button" class="qty-btn" onclick="updateQty('${item.id}', 1)">+</button>
         </div>
       `;
       container.appendChild(div);
     });
+
+    document.getElementById("categoryView").style.display = "none";
+    document.getElementById("menuView").style.display = "block";
+    window.scrollTo(0, 0);
   }
 
-  function updateQty(id, change) {
-    if (cart[id].qty + change >= 0) {
-      cart[id].qty += change;
-      document.getElementById(`qty_${id}`).innerText = cart[id].qty;
-      calculateTotal();
+  // Kembali ke Tampilan Kategori Utama
+  function showCategoryView() {
+    document.getElementById("menuView").style.display = "none";
+    document.getElementById("categoryView").style.display = "block";
+  }
+
+  // Update Jumlah Pesanan
+  function updateQty(itemId, change) {
+    if (cart[itemId] && (cart[itemId].qty + change >= 0)) {
+      cart[itemId].qty += change;
+      const qtyElem = document.getElementById(`qty_${itemId}`);
+      if (qtyElem) qtyElem.innerText = cart[itemId].qty;
+      updateCartSummary();
     }
   }
 
-  function calculateTotal() {
+  // Update Total Belanjaan & Jumlah Item
+  function updateCartSummary() {
     let total = 0;
+    let totalCount = 0;
+
     Object.values(cart).forEach(item => {
       total += item.qty * item.price;
+      totalCount += item.qty;
     });
-    document.getElementById("totalHarga").innerText = total.toLocaleString('id-ID');
-    return total;
+
+    document.getElementById("cartTotal").innerText = total.toLocaleString('id-ID');
+    document.getElementById("cartCount").innerText = totalCount;
+    return { total, totalCount };
   }
 
-  renderMenu(menuSweet, "sweet-menu");
-  renderMenu(menuSavory, "savory-menu");
+  // Proses Kirim Pesanan ke Google Sheets & QRIS
+  function processOrder() {
+    const { total } = updateCartSummary();
 
-  document.getElementById("orderForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const total = calculateTotal();
-    
     if (total === 0) {
-      alert("Silakan pilih minimal 1 menu pesanan.");
+      alert("Keranjang masih kosong. Silakan pilih minimal 1 item terlebih dahulu.");
       return;
     }
 
-    const nama = document.getElementById("nama").value;
-    const whatsapp = document.getElementById("whatsapp").value;
-    const catatan = document.getElementById("catatan").value;
+    const nama = document.getElementById("nama").value.trim();
+    const whatsapp = document.getElementById("whatsapp").value.trim();
+    const catatan = document.getElementById("catatan").value.trim();
+
+    if (!nama || !whatsapp) {
+      alert("Mohon isi Nama Lengkap dan Nomor WhatsApp terlebih dahulu di halaman utama.");
+      showCategoryView();
+      document.getElementById("nama").focus();
+      return;
+    }
 
     let pesananArr = [];
     Object.values(cart).forEach(item => {
@@ -192,11 +277,11 @@
     });
     const pesananText = pesananArr.join(", ");
 
-    const btn = document.getElementById("submitBtn");
-    btn.innerText = "Memproses Pesanan...";
-    btn.disabled = true;
+    const btnCheckout = document.querySelector(".btn-checkout");
+    btnCheckout.innerText = "Memproses...";
+    btnCheckout.disabled = true;
 
-    
+    // Kirim Data ke Google Sheets
     fetch(SCRIPT_URL, {
       method: "POST",
       body: JSON.stringify({
@@ -209,24 +294,23 @@
     })
     .then(res => res.json())
     .then(data => {
-      btn.innerText = "Bayar & Kirim Pesanan";
-      btn.disabled = false;
+      btnCheckout.innerText = "Lanjut Pembayaran";
+      btnCheckout.disabled = false;
 
-    
+      // Tampilkan Modal QRIS
       document.getElementById("qrisTotal").innerText = "Rp " + total.toLocaleString('id-ID');
       
-  
-      const textWA = `Halo IMAN SHOP, saya sudah melakukan pembayaran via QRIS.%0A%0A*Detail Pesanan:*%0A- Nama: ${nama}%0A- Pesanan: ${pesananText}%0A- Total: Rp ${total.toLocaleString('id-ID')}%0A- Catatan: ${catatan || '-'}`;
+      const textWA = `Halo Jolie's Bakery, saya sudah transfer via QRIS.%0A%0A*Detail Pesanan:*%0A- Nama: ${nama}%0A- Pesanan: ${pesananText}%0A- Total: Rp ${total.toLocaleString('id-ID')}%0A- Catatan: ${catatan || '-'}`;
       document.getElementById("waLink").href = `https://wa.me/${NO_WA}?text=${textWA}`;
 
       document.getElementById("qrisModal").style.display = "flex";
     })
     .catch(err => {
-      alert("Terjadi kesalahan, coba lagi.");
-      btn.innerText = "Bayar & Kirim Pesanan";
-      btn.disabled = false;
+      alert("Terjadi masalah saat mengirim data. Silakan coba lagi.");
+      btnCheckout.innerText = "Lanjut Pembayaran";
+      btnCheckout.disabled = false;
     });
-  });
+  }
 </script>
 
 </body>
