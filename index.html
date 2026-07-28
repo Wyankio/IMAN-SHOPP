@@ -6,7 +6,7 @@ https://script.google.com/macros/s/AKfycbyzAzuv_ku1dLKxl5ObfTO0WkHsrl_tc-HFngs1p
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Open PO - Jolie's Bakery</title>
+  <title>Open PO - IMAN SHOP </title>
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background-color: #f7f3ef; color: #4a3b32; margin: 0; padding: 20px; }
@@ -38,7 +38,7 @@ https://script.google.com/macros/s/AKfycbyzAzuv_ku1dLKxl5ObfTO0WkHsrl_tc-HFngs1p
 <body>
 
 <div class="container">
-  <h1>IMAN SHOp</h1>
+  <h1>IMAN SHOP </h1>
   <p class="subtitle">Form Order Pre-Order (PO)</p>
   <form id="orderForm">
     <div class="form-group">
@@ -218,7 +218,7 @@ https://script.google.com/macros/s/AKfycbyzAzuv_ku1dLKxl5ObfTO0WkHsrl_tc-HFngs1p
       document.getElementById("qrisTotal").innerText = "Rp " + total.toLocaleString('id-ID');
       
       // Buat Format Pesan WA
-      const textWA = `Halo Jolie's Bakery, saya sudah melakukan pembayaran via QRIS.%0A%0A*Detail Pesanan:*%0A- Nama: ${nama}%0A- Pesanan: ${pesananText}%0A- Total: Rp ${total.toLocaleString('id-ID')}%0A- Catatan: ${catatan || '-'}`;
+      const textWA = `Halo IMAN SHOP, saya sudah melakukan pembayaran via QRIS.%0A%0A*Detail Pesanan:*%0A- Nama: ${nama}%0A- Pesanan: ${pesananText}%0A- Total: Rp ${total.toLocaleString('id-ID')}%0A- Catatan: ${catatan || '-'}`;
       document.getElementById("waLink").href = `https://wa.me/${NO_WA}?text=${textWA}`;
 
       document.getElementById("qrisModal").style.display = "flex";
