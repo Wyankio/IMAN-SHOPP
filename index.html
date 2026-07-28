@@ -314,7 +314,7 @@
   
       document.getElementById("qrisTotal").innerText = "Rp " + total.toLocaleString('id-ID');
       
-      const textWA = `Halo Jolie's Bakery, saya sudah transfer via QRIS.%0A%0A*Detail Pesanan:*%0A- Nama: ${nama}%0A- Pesanan: ${pesananText}%0A- Total: Rp ${total.toLocaleString('id-ID')}%0A- Catatan: ${catatan || '-'}`;
+      const textWA = `Halo IMAN SHOP, saya sudah transfer via QRIS.%0A%0A*Detail Pesanan:*%0A- Nama: ${nama}%0A- Pesanan: ${pesananText}%0A- Total: Rp ${total.toLocaleString('id-ID')}%0A- Catatan: ${catatan || '-'}`;
       document.getElementById("waLink").href = `https://wa.me/${NO_WA}?text=${textWA}`;
 
       document.getElementById("qrisModal").style.display = "flex";
